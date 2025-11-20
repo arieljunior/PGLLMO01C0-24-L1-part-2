@@ -1,6 +1,9 @@
 import CardProduct from "@/components/CardProduct";
-import { View } from "@/components/Themed";
+import { Text, View } from "@/components/Themed";
+import { Button, ButtonText } from "@/components/ui/button";
+import { logout, selectAuth } from "@/store/reducers/authSlice";
 import { useRouter } from "expo-router";
+import { useDispatch, useSelector } from "react-redux";
 
 const mockProduct = {
     id: "1",
@@ -14,8 +17,21 @@ const mockProduct = {
 
 export default function Home() {
     const router = useRouter();
+    const { token } = useSelector(selectAuth);
+    const dispatch = useDispatch();
 
-    return <View className="flex-1 p-6 justify-center bg-black">
+    const handleLogout = () => {
+        dispatch(logout())
+    }
+
+    return <View className="flex-1 p-6 justify-center">
+
+        <Text>Meu token é: {token}</Text>
+
+        <Button onPress={handleLogout} action="negative">
+            <ButtonText>Logout</ButtonText>
+        </Button>
+
         <CardProduct 
             {...mockProduct}
             onAddToCart={()=>{}}

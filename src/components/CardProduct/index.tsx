@@ -36,7 +36,7 @@ export default function CardProduct({
     title
 }: CardProductProps) {
 
-    return <Card size="md" className="p-5 rounded-lg">
+    return <Card size="md" variant="outline" className="p-5 rounded-lg">
         <Pressable onPress={() => onViewDetails(id)}>
             <Image
                 source={{ uri: imageUrl }}
@@ -48,14 +48,14 @@ export default function CardProduct({
         </Pressable>
         <VStack space="sm">
             <HStack className="justify-center items-center">
-                <Heading>
+                <Heading className='flex-1'>
                     {title}
                 </Heading>
-                <StyledCategoryBadge>
+                <Badge className="bg-gray-200">
                     <BadgeText>{category}</BadgeText>
-                </StyledCategoryBadge>
+                </Badge>
             </HStack>
-            <Text className="text-sm font-semibold text-gray-700">
+            <Text className="text-xl font-bold text-indigo-600">
                 R$ {price.toFixed(2)}
             </Text>
 
@@ -70,7 +70,7 @@ export default function CardProduct({
                     onPress={() => onViewDetails(id)}
                 >
                     <ButtonIcon as={EyeIcon} className="mr-2" />
-                    <ButtonText>Visualizar</ButtonText>
+                    <ButtonText>Detalhes</ButtonText>
                 </Button>
                 <Button
                     action="primary"

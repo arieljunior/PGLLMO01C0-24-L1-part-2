@@ -10,6 +10,8 @@ import { Slot, Stack, usePathname } from 'expo-router';
 import { Fab, FabIcon } from '@/components/ui/fab';
 import { MoonIcon, SunIcon } from '@/components/ui/icon';
 import { TailwindProvider } from 'tailwindcss-react-native'
+import { Provider } from 'react-redux';
+import { store } from "@/store/store";
 
 export default function RootLayoutNav() {
   const pathname = usePathname();
@@ -17,42 +19,35 @@ export default function RootLayoutNav() {
 
   return (
     <TailwindProvider>
-      <GluestackUIProvider mode={colorMode}>
-        <ThemeProvider value={colorMode === 'dark' ? DarkTheme : DefaultTheme}>
-          <Stack screenOptions={{
-            headerShown: false
-          }}>
+      <Provider store={store}>
 
-            <Stack.Screen name='index' />
-            <Stack.Screen
-              name='home'
-              options={{
-                headerShown: true,
-                title: "Início"
-              }}
-            />
-            <Stack.Screen
-              name='details/[id]'
-              options={{
-                headerShown: true,
-                title: "Detalhes do produto"
-              }}
-            />
+        <GluestackUIProvider mode={colorMode}>
+          <ThemeProvider value={colorMode === 'dark' ? DarkTheme : DefaultTheme}>
+            <Stack screenOptions={{
+              headerShown: false
+            }}>
 
-          </Stack>
-          {pathname === '/' && (
-            <Fab
-              onPress={() =>
-                setColorMode(colorMode === 'dark' ? 'light' : 'dark')
-              }
-              className="m-6"
-              size="lg"
-            >
-              <FabIcon as={colorMode === 'dark' ? MoonIcon : SunIcon} />
-            </Fab>
-          )}
-        </ThemeProvider>
-      </GluestackUIProvider>
+              <Stack.Screen name='index' />
+              <Stack.Screen name='register' options={{
+                headerShown: true,
+                title: 'Novo Registro'
+              }} />
+
+            </Stack>
+            {pathname === '/' && (
+              <Fab
+                onPress={() =>
+                  setColorMode(colorMode === 'dark' ? 'light' : 'dark')
+                }
+                className="m-6"
+                size="lg"
+              >
+                <FabIcon as={colorMode === 'dark' ? MoonIcon : SunIcon} />
+              </Fab>
+            )}
+          </ThemeProvider>
+        </GluestackUIProvider>
+      </Provider>
     </TailwindProvider>
   );
 }

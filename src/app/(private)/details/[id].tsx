@@ -1,10 +1,11 @@
-import { Text, View } from "@/components/Themed";
+import { View } from "@/components/Themed";
 import { Badge, BadgeText } from "@/components/ui/badge";
 import { Button, ButtonIcon } from "@/components/ui/button";
 import { Fab, FabIcon, FabLabel } from "@/components/ui/fab";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
 import { Image } from "@/components/ui/image";
+import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { Heart, ShoppingCart, Star } from "lucide-react-native";
 import { useState } from "react";
@@ -29,7 +30,7 @@ const mockProduct: ProductDetail = {
     category: 'Audio Equipment',
     description: 'Immerse yourself in pure audio quality with our latest generation headphones. Featuring industry-leading noise cancellation, 30 hours of battery life, and plush earcups for ultimate comfort. Available in three stylish colors.',
     imageUrl: 'https://edifier.com.br/pub/media/catalog/product/h/e/headset-gamer-edifier-g2ii---preto_1_.jpg',
-    stock: 5,
+    stock: 15,
 };
 
 export default function Details() {
@@ -48,12 +49,12 @@ export default function Details() {
             />
 
             <VStack space="md" className="p-4">
-                <HStack className="flex-1 justify-center items-center">
-                    <VStack>
+                <HStack className="justify-between items-center">
+                    <VStack className="flex-1">
                         <Badge
                             action="info"
                             variant="outline"
-                            size="lg"
+                            size="md"
                             className="w-2/6 mb-4"
                         >
                             <BadgeText>{mockProduct.category}</BadgeText>
@@ -61,7 +62,7 @@ export default function Details() {
                         <Heading size="xl">
                             {mockProduct.title}
                         </Heading>
-
+                        
                     </VStack>
 
                     <Button
@@ -77,20 +78,20 @@ export default function Details() {
                     </Button>
                 </HStack>
 
-                <HStack className="items-center justify-between">
-                    <Text className="text-3xl font-bold my-2"> R${mockProduct.price.toFixed(2)}</Text>
+                <HStack className="items-center justify-between mt-2 pb-2 border-b-hairline">
+                    <Text className="text-3xl font-bold text-indigo-600 my-2"> R${mockProduct.price.toFixed(2)}</Text>
 
                     <HStack space="xs" className="bg-yellow-100 rounded-full py-1 px-3 items-center">
                         <Button variant="link">
                             <ButtonIcon as={Star} className="color-yellow-600 fill-yellow-600" />
                         </Button>
-                        <Text className="text-sm font-semibold ml-1">{mockProduct.rating}</Text>
+                        <Text size="md" className="text-sm font-semibold ml-1">{mockProduct.rating}</Text>
                     </HStack>
                 </HStack>
 
                 <VStack space="sm" className="mt-4">
-                    <Heading>Descrição</Heading>
-                    <Text className="color-gray-700">{mockProduct.description}</Text>
+                    <Heading size="sm">Descrição</Heading>
+                    <Text size="md" className="color-gray-700">{mockProduct.description}</Text>
                 </VStack>
 
                 <Text className={`${mockProduct.stock > 10 ? 'text-green-600' : 'text-orange-600'}`}>
