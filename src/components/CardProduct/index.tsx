@@ -9,7 +9,6 @@ import { Image } from "../ui/image";
 import { Pressable } from "../ui/pressable";
 import { Text } from "../ui/text";
 import { VStack } from "../ui/vstack";
-import { styled } from 'tailwindcss-react-native';
 import { ShoppingCart } from 'lucide-react-native';
 
 interface CardProductProps {
@@ -22,8 +21,6 @@ interface CardProductProps {
     onViewDetails: (id: string) => void
     onAddToCart: (id: string) => void
 }
-
-const StyledCategoryBadge = styled(Badge, "bg-gray-200");
 
 export default function CardProduct({
     category,

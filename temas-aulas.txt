@@ -1,0 +1,28 @@
+- Aula 1 - Entendendo Gluestack-ui (substituto do NativeBase)
+    1. Do NativeBase ao Gluestack Ui
+    2. Entendendo Gluestack
+    3. Componentes Básicos e Layout
+    4. Configuração e instalação
+    5. Criar projeto das aulas
+
+- Aula 2 - Design System com gluestack-ui
+	- SafeAreaView
+	- tailwindcss-react-native / nativewind 
+	- Tela Home
+	- Componente Card
+	- Tela Detalhes produto
+- Aula 3 - Arquitetura Flux com Redux Toolkit (RTK)
+ - Relembrar: Prop Drilling
+ - Conceitos Flux/Redux
+ - Instalação e configuração da store
+ - Criação de um slice
+ - Conectando UI
+
+- Aula 4 - RTK Avançado e Gerenciamento de Dados Assíncronos
+    - Ações Assíncronas
+    - Atualizando UI
+    
+- Aula 5 - Introdução ao GraphQL e Apollo Client
+- Aula 6 - Otimização, Mutação e Cache
+- Aula 7 - Notificação Push
+- Aula 8 - Publicação de Apps

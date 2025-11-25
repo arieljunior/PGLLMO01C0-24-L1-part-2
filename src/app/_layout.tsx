@@ -5,35 +5,56 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from '@react-navigation/native';
-import { useState } from 'react';
-import { Slot, Stack, usePathname } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Slot, Stack, usePathname, useRouter } from 'expo-router';
 import { Fab, FabIcon } from '@/components/ui/fab';
 import { MoonIcon, SunIcon } from '@/components/ui/icon';
-import { TailwindProvider } from 'tailwindcss-react-native'
-import { Provider } from 'react-redux';
-import { store } from "@/store/store";
+import { Provider, useSelector } from 'react-redux';
+import { store, useAppDispatch } from "@/store/store";
+import { loadUserFromStorage, selectAuth } from '@/store/reducers/authSlice';
+
+function StackLayout(){
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { isLoadingFromStorage, status } = useSelector(selectAuth);
+
+  useEffect(()=>{
+    dispatch(loadUserFromStorage());
+  },[dispatch]);
+
+  useEffect(()=>{
+    if(isLoadingFromStorage) return;
+
+    if (status === 'authenticated'){
+      router.replace('/home');
+    }
+  },[dispatch, isLoadingFromStorage, status]);
+
+  return (
+    <Stack screenOptions={{
+      headerShown: false
+    }}>
+
+      <Stack.Screen name='index' />
+      <Stack.Screen name='register' options={{
+        headerShown: true,
+        title: 'Novo Registro'
+      }} />
+
+    </Stack>
+  )
+}
+
 
 export default function RootLayoutNav() {
   const pathname = usePathname();
   const [colorMode, setColorMode] = useState<'light' | 'dark'>('light');
 
   return (
-    <TailwindProvider>
       <Provider store={store}>
-
         <GluestackUIProvider mode={colorMode}>
           <ThemeProvider value={colorMode === 'dark' ? DarkTheme : DefaultTheme}>
-            <Stack screenOptions={{
-              headerShown: false
-            }}>
-
-              <Stack.Screen name='index' />
-              <Stack.Screen name='register' options={{
-                headerShown: true,
-                title: 'Novo Registro'
-              }} />
-
-            </Stack>
+            <StackLayout />
             {pathname === '/' && (
               <Fab
                 onPress={() =>
@@ -48,6 +69,5 @@ export default function RootLayoutNav() {
           </ThemeProvider>
         </GluestackUIProvider>
       </Provider>
-    </TailwindProvider>
   );
 }

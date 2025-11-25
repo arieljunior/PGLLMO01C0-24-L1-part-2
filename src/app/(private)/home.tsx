@@ -17,20 +17,8 @@ const mockProduct = {
 
 export default function Home() {
     const router = useRouter();
-    const { token } = useSelector(selectAuth);
-    const dispatch = useDispatch();
-
-    const handleLogout = () => {
-        dispatch(logout())
-    }
-
+    
     return <View className="flex-1 p-6 justify-center">
-
-        <Text>Meu token é: {token}</Text>
-
-        <Button onPress={handleLogout} action="negative">
-            <ButtonText>Logout</ButtonText>
-        </Button>
 
         <CardProduct 
             {...mockProduct}
