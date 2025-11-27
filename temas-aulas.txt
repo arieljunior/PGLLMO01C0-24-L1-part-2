@@ -21,8 +21,13 @@
 - Aula 4 - RTK Avançado e Gerenciamento de Dados Assíncronos
     - Ações Assíncronas
     - Atualizando UI
+    - Conceito GraphQL
     
 - Aula 5 - Introdução ao GraphQL e Apollo Client
+    - GraphQL
+    - Apollo client e server
+    - instação e configuração
+    - queries
 - Aula 6 - Otimização, Mutação e Cache
 - Aula 7 - Notificação Push
 - Aula 8 - Publicação de Apps

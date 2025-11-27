@@ -12,23 +12,25 @@ import { MoonIcon, SunIcon } from '@/components/ui/icon';
 import { Provider, useSelector } from 'react-redux';
 import { store, useAppDispatch } from "@/store/store";
 import { loadUserFromStorage, selectAuth } from '@/store/reducers/authSlice';
+import { ApolloProvider } from '@apollo/client/react';
+import { apolloClient } from '@/services/apollo';
 
-function StackLayout(){
+function StackLayout() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { isLoadingFromStorage, status } = useSelector(selectAuth);
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(loadUserFromStorage());
-  },[dispatch]);
+  }, [dispatch]);
 
-  useEffect(()=>{
-    if(isLoadingFromStorage) return;
+  useEffect(() => {
+    if (isLoadingFromStorage) return;
 
-    if (status === 'authenticated'){
+    if (status === 'authenticated') {
       router.replace('/home');
     }
-  },[dispatch, isLoadingFromStorage, status]);
+  }, [dispatch, isLoadingFromStorage, status]);
 
   return (
     <Stack screenOptions={{
@@ -51,7 +53,8 @@ export default function RootLayoutNav() {
   const [colorMode, setColorMode] = useState<'light' | 'dark'>('light');
 
   return (
-      <Provider store={store}>
+    <Provider store={store}>
+      <ApolloProvider client={apolloClient}>
         <GluestackUIProvider mode={colorMode}>
           <ThemeProvider value={colorMode === 'dark' ? DarkTheme : DefaultTheme}>
             <StackLayout />
@@ -68,6 +71,7 @@ export default function RootLayoutNav() {
             )}
           </ThemeProvider>
         </GluestackUIProvider>
-      </Provider>
+      </ApolloProvider >
+    </Provider>
   );
 }

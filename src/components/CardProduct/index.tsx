@@ -16,7 +16,7 @@ interface CardProductProps {
     title: string,
     description: string,
     category: string,
-    price: number,
+    price: string,
     imageUrl: string,
     onViewDetails: (id: string) => void
     onAddToCart: (id: string) => void
@@ -53,7 +53,7 @@ export default function CardProduct({
                 </Badge>
             </HStack>
             <Text className="text-xl font-bold text-indigo-600">
-                R$ {price.toFixed(2)}
+                R$ {Number(price).toFixed(2)}
             </Text>
 
             <Text size="sm" numberOfLines={2}>
