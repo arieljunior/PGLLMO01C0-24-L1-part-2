@@ -28,6 +28,12 @@
     - Apollo client e server
     - instação e configuração
     - queries
+
 - Aula 6 - Otimização, Mutação e Cache
-- Aula 7 - Notificação Push
-- Aula 8 - Publicação de Apps
+    - query
+    - mutation
+    - firebase
+
+- Aula 7 - Firebase
+    - projeto final
+- Aula 8 - Notificação Push e Publicação de Apps

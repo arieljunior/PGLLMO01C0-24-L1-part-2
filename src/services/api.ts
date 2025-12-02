@@ -1,16 +1,13 @@
+import { auth } from '@/config/firebase';
+import { signInWithEmailAndPassword, User } from 'firebase/auth'
+
 export interface LoginCredentials {
     email: string;
     password: string;
 }
 
-export const simulateLogin = ({email, password}: LoginCredentials): Promise<string> => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            if (email === 'admin@admin.com' && password === '123') {
-                resolve('meu-token-123');
-            } else {
-                reject(new Error('Credenciais inválidas'));
-            }
-        }, 3000);
-    });
+export const loginWithFirebase = async ({email, password}: LoginCredentials): Promise<string> => {
+    const { user } = await signInWithEmailAndPassword(auth, email, password)
+    // const token = await user.getIdToken();
+    return user.uid
 };

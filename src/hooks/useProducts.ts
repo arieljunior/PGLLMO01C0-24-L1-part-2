@@ -9,7 +9,8 @@ export function useProducts() {
         data,
         loading,
         error,
-        fetchMore
+        fetchMore,
+        refetch,
     } = useQuery(GET_PRODUCTS, {
         variables: {
             first: 10,
@@ -20,7 +21,7 @@ export function useProducts() {
     const loadMore = useCallback(async () => {
 
         if (loading || isFetchingMore) return;
-
+        
         const pageInfo = data?.products.pageInfo;
 
         if (!pageInfo?.hasNextPage) return;
@@ -38,13 +39,25 @@ export function useProducts() {
         } finally {
             setIsFetchingMore(false);
         }
-    }, []);
+    }, [data, fetchMore, isFetchingMore, loading]);
 
+    const handleRefresh = useCallback(async () => {
+        setIsRefreshing(true)
+        try {
+            await refetch({ first: 10, after: null })
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setIsRefreshing(false)
+        }
+    }, [refetch, setIsRefreshing])
     return {
         data,
         loading,
         error,
         loadMore,
-        isFetchingMore
+        isFetchingMore,
+        handleRefresh,
+        isRefreshing
     }
 }

@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 
 export default function PrivateLayout() {
     const router = useRouter();
-    const { token } = useSelector(selectAuth);
+    const { uid: token } = useSelector(selectAuth);
     const dispatch = useAppDispatch();
 
     useEffect(() => {

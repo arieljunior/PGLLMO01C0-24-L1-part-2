@@ -14,6 +14,8 @@ import { store, useAppDispatch } from "@/store/store";
 import { loadUserFromStorage, selectAuth } from '@/store/reducers/authSlice';
 import { ApolloProvider } from '@apollo/client/react';
 import { apolloClient } from '@/services/apollo';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '@/config/firebase';
 
 function StackLayout() {
   const dispatch = useAppDispatch();
@@ -31,6 +33,15 @@ function StackLayout() {
       router.replace('/home');
     }
   }, [dispatch, isLoadingFromStorage, status]);
+
+
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+  //     console.log('firebaseUser', firebaseUser)
+  //   });
+
+  //   return unsubscribe;
+  // }, []);
 
   return (
     <Stack screenOptions={{

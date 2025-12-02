@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { LoginCredentials, simulateLogin } from '@/services/api';
+import { LoginCredentials, loginWithFirebase } from '@/services/api';
 import * as storage from '@/services/storage';
+import { signOut } from 'firebase/auth'
+import { auth } from '@/config/firebase';
 
 export interface AuthState {
-    token: string | null,
+    uid: string | null,
     status: 'idle' | 'authenticated',
     isLoading: boolean;
     isLoadingFromStorage: boolean;
@@ -13,7 +15,7 @@ export interface AuthState {
 
 const initialState: AuthState = {
     status: 'idle',
-    token: null,
+    uid: null,
     error: null,
     isLoading: false,
     isLoadingFromStorage: false
@@ -35,7 +37,7 @@ const authSlice = createSlice({
             .addCase(login.fulfilled, (state, action: PayloadAction<string>) => {
                 state = {
                     ...state,
-                    token: action.payload,
+                    uid: action.payload,
                     isLoading: false,
                     error: null,
                     status: 'authenticated'
@@ -53,7 +55,7 @@ const authSlice = createSlice({
             .addCase(loadUserFromStorage.fulfilled, (state, action: PayloadAction<string | null>) => {
                 state = {
                     ...state,
-                    token: action.payload,
+                    uid: action.payload,
                     isLoadingFromStorage: false,
                     error: null,
                     status: 'authenticated'
@@ -75,9 +77,9 @@ export const login = createAsyncThunk<string, LoginCredentials, { rejectValue: s
     'auth/login',
     async (credentials, { rejectWithValue }) => {
         try {
-            const token = await simulateLogin(credentials);
-            await storage.saveToken(token);
-            return token;
+            const uid = await loginWithFirebase(credentials);
+            await storage.saveUid(uid);
+            return uid;
         } catch (e: any) {
             return rejectWithValue(e.message || "Erro desconhecido")
         }
@@ -87,15 +89,16 @@ export const login = createAsyncThunk<string, LoginCredentials, { rejectValue: s
 export const loadUserFromStorage = createAsyncThunk<string | null, void>(
     'auth/loadUserFromStorage',
     async () => {
-        const token = await storage.getToken();
-        return token;
+        const uid = await storage.getUid();
+        return uid;
     }
 );
 
 export const logout = createAsyncThunk(
     'auth/logout',
     async () => {
-        await storage.removeToken();
+        await signOut(auth)
+        await storage.removeUid();
     }
 );
 

@@ -28,13 +28,21 @@ const mockProduct = {
 export default function Home() {
     const router = useRouter();
 
-    const { error, loading, data, loadMore, isFetchingMore} = useProducts();
+    const { 
+        error, 
+        loading, 
+        data, 
+        loadMore, 
+        isFetchingMore,
+        handleRefresh,
+        isRefreshing
+    } = useProducts();
 
     const handleViewProductDetails = useCallback((id: string)=>{
         router.push(`/details/${encodeURIComponent(id)}`)
     },[router]);
 
-    if (loading) {
+    if (loading && !data) {
         return (
             <Center className="flex-1">
                 <Spinner size="large" color="primary500" />
@@ -53,13 +61,15 @@ export default function Home() {
             </Center>
         );
     }
-    return <Box className="flex-1 p-6 justify-center">
+    return <Box className="flex-1 justify-center">
 
         <FlatList
             data={data?.products.edges}
             ListEmptyComponent={<Box><Text>Nenhum produto encontrado.</Text></Box>}
             keyExtractor={(item) => item.node.id}
             onEndReached={loadMore}
+            refreshing={isRefreshing}
+            onRefresh={handleRefresh}
             ListFooterComponent={() => {
                 if (!isFetchingMore) return <Box className="h-20" />;
                 return (
